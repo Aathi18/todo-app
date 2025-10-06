@@ -1,4 +1,4 @@
-# 📝 Todo Application
+<img width="989" height="519" alt="image" src="https://github.com/user-attachments/assets/948a5f72-79d8-447f-8625-92396ac95135" /># 📝 Todo Application
 
 A **full-stack Todo application** built with **React (TypeScript)** for the frontend, **Node.js (TypeScript + Express)** for the backend API, and **MySQL** for the database.
 All services are containerized using **Docker** and orchestrated with **Docker Compose**.
@@ -117,7 +117,7 @@ Ensure you have the following installed:
 ### Step 1️⃣ — Clone the Repository
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/Aathi18/todo-app.git
 cd todo-app
 ```
 
