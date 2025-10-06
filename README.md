@@ -97,6 +97,9 @@ All services are containerized using **Docker** and orchestrated with **Docker C
 ![Testing Results 1](docs/testing-screenshot1.png)
 ![Testing Results 2](docs/testing-screenshot2.png)
 
+### Desktop Docker Image 
+![Desktop Docker Image](docs/docker-screenshot.png)
+
 ### 📬 Postman API Testing
 ![Postman API Test](docs/postman-screenshot.png)
 
