@@ -1,219 +1,336 @@
-# Todo Application
+# 📝 Todo Application
 
-A full-stack Todo application built with React (TypeScript) for the frontend, Node.js (TypeScript + Express) for the backend API, and MySQL for the database. All components are containerized using Docker and orchestrated with Docker Compose.
+A **full-stack Todo application** built with **React (TypeScript)** for the frontend, **Node.js (TypeScript + Express)** for the backend API, and **MySQL** for the database.
+All services are containerized using **Docker** and orchestrated with **Docker Compose**.
 
-## Table of Contents
+---
 
-* [Features](#features)
-* [Technologies Used](#technologies-used)
-* [Prerequisites](#prerequisites)
-* [Getting Started](#getting-started)
+## 📑 Table of Contents
 
-  * [1. Clone the repository](#1-clone-the-repository)
-  * [2. Navigate to the project directory](#2-navigate-to-the-project-directory)
-  * [3. Build and Run with Docker Compose](#3-build-and-run-with-docker-compose)
-  * [4. Access the Application](#4-access-the-application)
-* [API Endpoints](#api-endpoints)
-* [Project Structure](#project-structure)
-* [Development Notes](#development-notes)
-* [Troubleshooting](#troubleshooting)
+* [✨ Features](#-features)
+* [🧠 Technologies Used](#-technologies-used)
+* [🛠️ Architecture Overview](#️-architecture-overview)
+* [🖼️ Screenshots](#️-screenshots)
+* [⚙️ Prerequisites](#️-prerequisites)
+* [🚀 Getting Started](#-getting-started)
+* [📡 API Endpoints](#-api-endpoints)
+* [📁 Project Structure](#-project-structure)
+* [🧪 Testing](#-testing)
+* [💡 Development Notes](#-development-notes)
+* [❓ Troubleshooting](#-troubleshooting)
 
-## Features
+---
 
-* Add new tasks with a title and optional description.
-* View the 5 most recent incomplete tasks.
-* Mark tasks as complete.
-* Basic form validation (frontend and backend).
-* Loading and error indicators in the frontend.
+## ✨ Features
 
-## Technologies Used
+✅ Add new tasks with a title and optional description
+✅ View the 5 most recent incomplete tasks
+✅ Mark tasks as complete
+✅ Full-stack setup with Docker
+✅ Unit and API testing for both frontend and backend
 
-**Frontend:**
+---
 
-* React (with TypeScript)
+## 🧠 Technologies Used
+
+### **Frontend**
+
+* React (TypeScript)
 * HTML5, CSS3
+* Jest + React Testing Library
 
-**Backend:**
+### **Backend**
 
-* Node.js (with TypeScript)
+* Node.js (TypeScript)
 * Express.js
-* `mysql2/promise` (MySQL client)
-* `express-validator` (API input validation)
-* `dotenv` (Environment variable management)
+* MySQL2 (Promise-based)
+* dotenv for environment configuration
+* Jest + Supertest for backend testing
 
-**Database:**
+### **Database**
 
 * MySQL 8.0
 
-**Containerization & Orchestration:**
+### **Containerization**
 
-* Docker
-* Docker Compose
+* Docker & Docker Compose
+* Nginx for serving React production build
 
-## Prerequisites
+---
 
-Before you begin, ensure you have the following installed on your machine:
+## 🛠️ Architecture Overview
 
-* **Docker Desktop:** Includes Docker Engine, CLI, and Docker Compose.
-  👉 [Download Docker Desktop](https://www.docker.com/products/docker-desktop/)
+```text
++-------------------+
+|    React Frontend |
+| (Nginx Container) |
+|     Port 3000     |
++---------+---------+
+          |
+          v
++-------------------+
+|   Node.js Backend |
+| (Express + TS)    |
+|     Port 5000     |
++---------+---------+
+          |
+          v
++-------------------+
+|     MySQL DB      |
+|   (Docker Image)  |
+|     Port 3306     |
++-------------------+
+```
 
-## Getting Started
+---
 
-Follow these instructions to get the project up and running on your local machine.
+## 🖼️ Screenshots
 
-### 1. Clone the repository
+### 🖥️ Frontend UI
+
+![Frontend UI](./docs/frontend-screenshot.png)
+
+### ⚙️ Backend API Test
+
+![Backend API](./docs/backend-screenshot.png)
+
+### 🧪 Jest Testing
+
+![Testing Results](./docs/testing-screenshot.png)
+
+*(Add actual image files in `todo-app/docs/` folder for these screenshots.)*
+
+---
+
+## ⚙️ Prerequisites
+
+Ensure you have the following installed:
+
+* **Docker Desktop** → [Download Here](https://www.docker.com/products/docker-desktop)
+* **Node.js v18+** (for local development/testing)
+* **npm or yarn**
+
+---
+
+## 🚀 Getting Started
+
+### Step 1️⃣ — Clone the Repository
 
 ```bash
-git clone (https://github.com/Aathi18/todo-app.git) # Replace with your actual repo URL
+git clone <your-repository-url>
 cd todo-app
 ```
 
-### 2. Navigate to the project directory
+### Step 2️⃣ — Build and Run with Docker Compose
 
-```bash
-cd todo-app
-```
-
-### 3. Build and Run with Docker Compose
+To start all services:
 
 ```bash
 docker-compose up --build --force-recreate
 ```
 
-If you want a super clean start (removes all related images and volumes, losing DB data):
+🧹 For a clean rebuild (removes all images and volumes):
 
 ```bash
 docker-compose down --rmi all --volumes
 docker-compose up --build --force-recreate
 ```
 
-### 4. Access the Application
+### Step 3️⃣ — Access the Application
 
-* **Frontend (React App):** [http://localhost:3000](http://localhost:3000)
-* **Backend (API Root):** [http://localhost:5000](http://localhost:5000) → *"Todo App Backend API is running!"*
-* **Backend API Tasks:** [http://localhost:5000/api/tasks](http://localhost:5000/api/tasks)
+* Frontend → [http://localhost:3000](http://localhost:3000)
+* Backend API → [http://localhost:5000](http://localhost:5000)
+* API Route Example → [http://localhost:5000/api/tasks](http://localhost:5000/api/tasks)
 
-## API Endpoints
+---
 
-Base URL: `http://localhost:5000/api`
+## 📡 API Endpoints
 
-### `GET /api/tasks`
+### **GET /api/tasks**
 
-Retrieve the 5 most recent incomplete tasks.
+Fetch the 5 most recent incomplete tasks.
 
 **Response:**
 
 ```json
 [
-  { "id": 1, "title": "Task Title", "description": "Optional", "is_completed": false }
+  { "id": 1, "title": "Sample Task", "description": "Optional", "is_completed": false }
 ]
 ```
 
----
-
-### `POST /api/tasks`
+### **POST /api/tasks**
 
 Add a new task.
 
-**Request Body:**
+**Request:**
 
 ```json
-{
-  "title": "Task Title",
-  "description": "Optional description"
-}
+{ "title": "New Task", "description": "Optional description" }
 ```
 
 **Response (201):**
 
 ```json
-{ "id": 1, "title": "Task Title", "description": "Optional description", "is_completed": false }
+{ "id": 1, "title": "New Task", "description": "Optional description", "is_completed": false }
 ```
 
-**Error (400):**
+### **PUT /api/tasks/:id/complete**
 
-```json
-{ "errors": [{ "msg": "Title is required", "param": "title", "location": "body" }] }
-```
+Mark a specific task as complete.
 
----
-
-### `PUT /api/tasks/:id/complete`
-
-Mark a task as complete.
-
-**Success (200):**
+**Response:**
 
 ```json
 { "message": "Task marked as complete" }
 ```
 
-**Error (404):**
-
-```json
-{ "message": "Task not found" }
-```
-
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 todo-app/
 ├── backend/
-│   ├── src/                 # Backend TypeScript source files
-│   │   └── app.ts           # Main Express application file
-│   ├── dist/                # Compiled JavaScript output
-│   ├── Dockerfile           # Backend service Dockerfile
-│   ├── package.json         # Backend dependencies
-│   ├── tsconfig.json        # Backend TypeScript config
-│   └── .env                 # Local environment variables
+│   ├── src/
+│   │   └── app.ts            # Main Express application
+│   ├── dist/                 # Compiled JS output
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── tests/                # Jest + Supertest files
+│   │   └── tasks.test.ts
+│   └── .env
+│
 ├── frontend/
-│   ├── public/              # Public assets
-│   ├── src/                 # React TypeScript source files
-│   │   ├── App.tsx          # Main React component
-│   │   ├── App.css          # Component styles
-│   │   ├── index.css        # Global styles
-│   │   └── App.test.tsx     # Frontend tests
-│   ├── Dockerfile           # Frontend service Dockerfile
-│   ├── nginx.conf           # Nginx config
-│   ├── package.json         # Frontend dependencies
-│   └── tsconfig.json        # Frontend TypeScript config
-├── docker-compose.yml       # Docker Compose services
-└── README.md                # Documentation
+│   ├── src/
+│   │   ├── App.tsx           # React UI
+│   │   ├── App.css
+│   │   ├── index.css
+│   │   ├── tests/
+│   │   │   └── App.test.tsx  # React Testing Library tests
+│   ├── Dockerfile
+│   ├── nginx.conf
+│   └── package.json
+│
+├── docker-compose.yml
+└── README.md
 ```
 
-## Development Notes
+---
 
-* **Live Reloading (Development):**
-  Backend can use `nodemon`, frontend auto-refreshes with React dev server.
+## 🧪 Testing
 
-* **Database Persistence:**
-  `db_data` volume persists MySQL data unless removed with `--volumes`.
+### 🧩 Frontend Tests
 
-## Troubleshooting
+We use **React Testing Library** and **Jest**.
 
-* **TypeScript errors in backend build:**
-  Run:
+**Test File:** `frontend/src/tests/App.test.tsx`
+
+```tsx
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import App from '../App';
+
+test('renders the Todo Application header', () => {
+  render(<App />);
+  const headerElement = screen.getByText(/Todo Application/i);
+  expect(headerElement).toBeInTheDocument();
+});
+```
+
+**Run Tests:**
+
+```bash
+cd frontend
+npm install
+npm test
+```
+
+---
+
+### ⚙️ Backend Tests
+
+We use **Jest** and **Supertest** to test the API routes.
+
+**Test File:** `backend/tests/tasks.test.ts`
+
+```ts
+import request from 'supertest';
+import { app } from '../src/app';
+
+describe('Task API', () => {
+  it('should get all tasks (empty initially)', async () => {
+    const res = await request(app).get('/api/tasks');
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual([]);
+  });
+
+  it('should add a new task', async () => {
+    const res = await request(app).post('/api/tasks').send({
+      title: 'Test Task 1',
+      description: 'This is a description for test task 1.',
+    });
+    expect(res.statusCode).toBe(201);
+    expect(res.body).toHaveProperty('id');
+  });
+});
+```
+
+**Run Tests:**
+
+```bash
+cd backend
+npm install
+npm run test
+```
+
+---
+
+## 💡 Development Notes
+
+* Frontend and Backend both support **hot-reload** with Docker volumes.
+* MySQL data persists between container restarts using `db_data` volume.
+* Update `.env` in the backend to configure DB credentials.
+
+---
+
+## ❓ Troubleshooting
+
+### ❌ Frontend Shows “Failed to Fetch Tasks”
+
+* Ensure backend is running (`docker ps` → check backend container).
+* Verify `nginx.conf` in frontend has:
+
+  ```
+  location /api {
+      proxy_pass http://backend:5000;
+  }
+  ```
+* Rebuild frontend:
 
   ```bash
-  rm -rf backend/dist
-  docker-compose up --build --force-recreate
+  docker-compose up --build frontend
   ```
 
-* **Frontend 404 / Failed to fetch tasks:**
+### ❌ Backend Crashes on Start
 
-  * Check `frontend/nginx.conf` proxy config.
-  * Verify backend is running at `http://localhost:5000`.
-  * Rebuild frontend image.
+* Ensure `.env` has correct DB values:
 
-* **docker-compose errors:**
+  ```
+  DB_HOST=db
+  DB_USER=user
+  DB_PASSWORD=password
+  DB_NAME=tododb
+  ```
+* Rebuild backend:
 
-  * Check logs: `docker-compose logs <service_name>`
-  * Ensure Docker Desktop is running.
-  * Try full cleanup:
+  ```bash
+  docker-compose up --build backend
+  ```
 
-    ```bash
-    docker-compose down --rmi all --volumes
-    docker-compose up --build --force-recreate
-    ```
+---
+
+## 🧾 License
+
+This project is licensed under the **MIT License**.
+© 2025 Your Name — All rights reserved.
