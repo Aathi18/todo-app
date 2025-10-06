@@ -1,0 +1,59 @@
+
+version: '3.8'
+services:
+  # MySQL Database Service
+  db:
+    image: mysql:8.0 # Using MySQL 8.0 image
+    container_name: todo_mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword # WARNING: Use a strong password in production!
+      MYSQL_DATABASE: tododb # The name of your database
+      MYSQL_USER: user # Database user
+      MYSQL_PASSWORD: password # Database user password
+    ports:
+      - "3306:3306" # Map host port 3306 to container port 3306
+    volumes:
+      - db_data:/var/lib/mysql # Persistent storage for database data
+      # You can also add a SQL script for initial schema/data here, e.g.:
+      # - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck: # Healthcheck to ensure DB is ready before backend connects
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      timeout: 20s
+      retries: 10
+
+  # Node.js Backend API Service
+  backend:
+    build: ./backend # Dockerfile for backend is in the ./backend directory
+    container_name: todo_backend
+    ports:
+      - "5000:5000" # Map host port 5000 to container port 5000 (your API will run on 5000)
+    environment:
+      DB_HOST: db # Hostname for the database (matches the service name in docker-compose)
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_NAME: tododb
+      DB_PORT: 3306
+    volumes:
+      - ./backend:/app # Mount the backend code into the container for live updates (dev only)
+      - /app/node_modules # Prevent host's node_modules from overriding container's
+    depends_on:
+      db:
+        condition: service_healthy # Ensure DB is healthy before starting backend
+    restart: always # Always restart if it crashes
+
+  # React Frontend Service
+  frontend:
+    build: ./frontend # Dockerfile for frontend is in the ./frontend directory
+    container_name: todo_frontend
+    ports:
+      - "3000:3000" # Map host port 3000 to container port 3000 (React dev server runs on 3000)
+    volumes:
+      - ./frontend:/app # Mount the frontend code into the container for live updates (dev only)
+      - /app/node_modules # Prevent host's node_modules from overriding container's
+    depends_on:
+      - backend # Frontend depends on backend being up (though not strictly necessary for dev server)
+    restart: always
+
+# Define named volumes for data persistence
+volumes:
+  db_data: {} # This will create a Docker volume named 'db_data'
