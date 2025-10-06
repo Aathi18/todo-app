@@ -86,19 +86,17 @@ All services are containerized using **Docker** and orchestrated with **Docker C
 
 ## 🖼️ Screenshots
 
-### 🖥️ Frontend UI
 
-![Frontend UI](./docs/frontend-screenshot.png)
+### 🖥️ Frontend UI
+![Frontend UI](docs/frontend-screenshot.png)
 
 ### ⚙️ Backend API Test
-
-![Backend API](./docs/backend-screenshot.png)
+![Backend API](docs/backend-screenshot.png)
 
 ### 🧪 Jest Testing
+![Testing Results 1](docs/testing-screenshot1.png)
+![Testing Results 2](docs/testing-screenshot2.png)
 
-![Testing Results](./docs/testing-screenshot1.png)
-![Testing Results](./docs/testing-screenshot2.png)
-*(Add actual image files in `todo-app/docs/` folder for these screenshots.)*
 
 ---
 
