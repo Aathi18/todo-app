@@ -330,7 +330,3 @@ npm run test
 
 ---
 
-## 🧾 License
-
-This project is licensed under the **MIT License**.
-© 2025 Your Name — All rights reserved.
