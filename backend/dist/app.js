@@ -25,15 +25,7 @@ async function connectToDatabase() {
         queueLimit: 0,
     });
     // create table if not exists
-    await pool.execute(`
-    CREATE TABLE IF NOT EXISTS tasks (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      title VARCHAR(255) NOT NULL,
-      description TEXT,
-      is_completed BOOLEAN DEFAULT FALSE,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-  `);
+    
     console.log('DB connected and table ensured.');
 }
 app.get('/', (req, res) => {
